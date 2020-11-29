@@ -81,7 +81,6 @@ plugins=(
 git
 pip
 python
-zsh-interactive-cd
 common-aliases
 zsh-completions
 zsh-autosuggestions
