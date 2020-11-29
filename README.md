@@ -15,7 +15,7 @@ Of course, some of the packages installed is completely personal preferences (fo
 
 # How to use it
 
-- **Docker**
+* **Docker**:
   Make sure you have docker installed and running in your machine.
   Some great resources:
   - [Docker Official Documentation](https://docs.docker.com/get-started/)
@@ -24,7 +24,7 @@ Of course, some of the packages installed is completely personal preferences (fo
   - [Get started using Visual Studio Code with Windows Subsystem for Linux by Microsoft Docs](https://docs.microsoft.com/pt-br/windows/wsl/tutorials/wsl-vscode)
   - [Get started with Docker remote containers on WSL 2 by Microsoft](https://docs.microsoft.com/pt-br/windows/wsl/tutorials/wsl-containers)
 
-* **Manual**
+* **Manual**:
   Clone the repository, make your changes to the Dockerfile, build, run and attach your shell and/or VSCode (using [Remote - Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)) to the container
 
   ```
@@ -34,7 +34,7 @@ Of course, some of the packages installed is completely personal preferences (fo
   docker run -it dev-container-python:latest /bin/zsh
   ```
 
-- **Docker Hub**
+* **Docker Hub**:
   Pull the image from DockerHub, run and attach your shell and/or VSCode (using [Remote - Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)) to the container
   ```
   docker pull 1mamute/dev-container-python:latest
