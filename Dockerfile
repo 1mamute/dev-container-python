@@ -5,7 +5,7 @@ FROM python:3.9
 RUN apt update && apt-get update && apt -y upgrade && apt-get -y upgrade
 
 # Install packages
-RUN apt install -y curl zsh grep nano git xclip xsel && apt-get install -y fzf build-essential libssl-dev libffi-dev python-dev
+RUN apt install -y curl openssl zsh grep nano git xclip xsel && apt-get install -y fzf build-essential libssl-dev libffi-dev python-dev
 
 # Install oh-my-zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
