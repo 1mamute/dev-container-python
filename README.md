@@ -1,6 +1,12 @@
 # dev-container-python
 
-Personal container environment for python3 development.
+Personal container environment for python2 and python3 development.
+
+- Ubuntu 20.04 base image
+- Essentials packages
+- Creates a user (pydev as default) and add its to sudoers group 
+- Python2, python2-pip and virtualenv
+- Python3, python3-pip and python3-venv
 
 Stop bloating your machine with packages and dependencies, code inside the Docker container! Everything is isolated, controlled, 100% customizable and it's reusable or disposable (if you want).
 
