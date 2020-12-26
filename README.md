@@ -4,14 +4,9 @@ Personal container environment for python3 development.
 
 Stop bloating your machine with packages and dependencies, code inside the Docker container! Everything is isolated, controlled, 100% customizable and it's reusable or disposable (if you want).
 
-**This is not a Docker image for production/release python applications!**
-
-During the build, all the files inside the **/config** folder is copied to the **/root** folder inside the container. You can customize my configurations or you can use it as a start point and
-make yourself home with your own configurations.
-
 **Read the Dockerfile!** There's useful comments there. (actually you should always read any scripts you download from the internet :P)
 
-Of course, some of the packages installed is completely personal preferences (for example, I like to use ZSH as my shell and Micro as my text editor), but the image can also be edited to your taste. Have fun!
+**This is not a Docker image for production/release python applications!**
 
 # How to use it
 
@@ -26,26 +21,30 @@ Of course, some of the packages installed is completely personal preferences (fo
   - [Get started with Docker remote containers on WSL 2 by Microsoft](https://docs.microsoft.com/pt-br/windows/wsl/tutorials/wsl-containers)
 
 - **Manual**:
-  Clone the repository, make your changes to the Dockerfile, build, run and attach your shell and/or VSCode (using [Remote - Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)) to the container
+  Clone the repository, make your changes to the Dockerfile, build, run and attach your shell and/or VSCode (using [Remote - Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)) to the container.
 
+  The **--build-arg** determine the users configuration. If you don't pass any **--build-arg** it will use _pydev_ as default user/pwd. You can also use your currently logged user if you pass **--build-arg USER=$USER** and **--build-arg PW=YOURPASSWORDHERE**
   ```
   git clone https://github.com/1mamute/dev-container-python.git
   cd dev-container-python
-  docker build --tag dev-container-python:latest .
-  docker run -it dev-container-python:latest /bin/zsh
+  docker build --build-arg USER=pydev \
+               --build-arg UID=1000 \
+               --build-arg GID=1000 \
+               --build-arg PW=pydev \
+               --tag dev-container-python:latest .
+  docker run -it -u pydev dev-container-python:latest /bin/bash
   ```
 
 - **Docker Hub**:
   Pull the image from DockerHub, run and attach your shell and/or VSCode (using [Remote - Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)) to the container
   ```
   docker pull 1mamute/dev-container-python:latest
-  docker run -it 1mamute/dev-container-python:latest /bin/zsh
+  docker run -it -u pydev 1mamute/dev-container-python:latest /bin/bash
   ```
 
 # TODO:
 
 - Mount a volume to persist the storage from the container
-- Setup to be able to develop python2 applications
-- Setup multiple environment utilizing pipenv and/or virtualenv
-- Setup a user inside the container so we won't always be using the root user
-- Move the base docker image with the "system configuration" to its own registry/repository and make the language specifics images based on it
+- Setup to be able to develop python2 applications (done)
+- Setup multiple environment utilizing python3-venv and/or virtualenv (done) 
+- Setup a user inside the container so we won't always be using the root user (done)

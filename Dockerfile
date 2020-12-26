@@ -1,35 +1,58 @@
-# Alpine is smaller but there are issues with glibc dependencies
-FROM python:3.9
+FROM ubuntu:20.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# The user creation process inside the dockerfile came from this article
+# https://medium.com/faun/set-current-host-user-for-docker-container-4e521cef9ffc
+ARG USER=pydev
+ARG PW=pydev
+ARG UID=1000
+ARG GID=1000
+
+# Adding a new non-root user pydev, use sudo if you need root privileges
+# If you don't pass USER and PW arguments, the user you're currently logged in
+# will be used
+RUN useradd -m ${USER} -u ${UID} && echo "${USER}:${PW}" | chpasswd
 
 # Update packages
 RUN apt update && apt-get update && apt -y upgrade && apt-get -y upgrade
 
-# Install packages
-RUN apt install -y curl openssl zsh grep nano git xclip xsel && apt-get install -y build-essential libssl-dev libffi-dev python-dev
+# Install essential packages
+RUN apt install -y \
+  apt-transport-https \
+  ca-certificates \ 
+  curl \
+  git \
+  netbase \
+  openssl \
+  software-properties-common \
+  sudo \
+  wget \
+  && apt-get install -y \
+  build-essential \
+  libffi-dev \
+  libssl-dev
 
-# Install oh-my-zsh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Python packages
+RUN apt install -y \
+  python3-dev \
+  python3-venv \
+  python3-pip \
+  python2 \
+  virtualenv
 
-# Install micro text-editor
-RUN curl https://getmic.ro | bash && mv micro /usr/bin
+# Install python 2 pip
+RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
+  && python2 get-pip.py && rm -rf get-pip.py
 
-# Set directory
-WORKDIR /root
+# Clean up apt cache
+RUN rm -rf /var/lib/apt/lists/*
 
-# Copy everything from the repo config's folder to the
-# WORKDIR path above
-# Attention: The copy follows folder structure!
-COPY /config .
+# Add user to sudo group
+RUN adduser ${USER} sudo
 
-# Install p10k theme
-RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+# Setup default user when entering docker container
+USER ${UID}:${GID}
+WORKDIR /home/${USER}
 
-# Install oh-my-zsh plugins
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-RUN git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
-
-# Set zsh as default shell
-RUN chsh -s $(which zsh)
-
-CMD [ "/bin/zsh" ]
+CMD [ "/bin/bash" ]
