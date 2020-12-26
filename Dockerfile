@@ -18,7 +18,7 @@ RUN useradd -m ${USER} -u ${UID} && echo "${USER}:${PW}" | chpasswd
 RUN apt update && apt-get update && apt -y upgrade && apt-get -y upgrade
 
 # Install essential packages
-RUN apt install -y \
+RUN apt install -y --no-install-recommends \
   apt-transport-https \
   ca-certificates \ 
   curl \
