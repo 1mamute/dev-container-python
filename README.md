@@ -45,6 +45,7 @@ Stop bloating your machine with packages and dependencies, code inside the Docke
 # TODO:
 
 - Mount a volume to persist the storage from the container
+- Create a devcontainer.json configuration
 - Setup to be able to develop python2 applications (done)
 - Setup multiple environment utilizing python3-venv and/or virtualenv (done) 
 - Setup a user inside the container so we won't always be using the root user (done)
